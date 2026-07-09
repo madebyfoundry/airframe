@@ -1,6 +1,6 @@
 # Airframe
 
-**Airframe is the space between two things.**
+**Airframe is an open architecture for moving real-time media between devices, independent of how it is captured or transported.**
 
 A wireless camera system that decomposes media pipelines into independent layers, enabling reliable, transparent, and flexible video streaming from mobile devices to production environments.
 
