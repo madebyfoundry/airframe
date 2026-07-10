@@ -68,14 +68,31 @@ jobs:
       - name: Update Manifest
         run: |
           $ManifestPath = "manifest-server/public/stable.json"
-          $Manifest = Get-Content $ManifestPath | ConvertFrom-Json
-          
-          # Assuming the first package is the dashboard
-          $Manifest.packages[0].version = "${{ env.VERSION }}"
-          $Manifest.packages[0].url = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ env.ZIP_NAME }}"
-          $Manifest.packages[0].size_bytes = [long]${{ env.FILE_SIZE }}
-          $Manifest.packages[0].sha256 = "${{ env.FILE_HASH }}"
-          
+          $Version = "${{ env.VERSION }}"
+          $ZipName = "${{ env.ZIP_NAME }}"
+          $Repo = "${{ github.repository }}"
+          $TagName = "${{ github.ref_name }}"
+          $FileSize = [long]"${{ env.FILE_SIZE }}"
+          $FileHash = "${{ env.FILE_HASH }}"
+
+          $Manifest = [ordered]@{
+            schemaVersion = "1"
+            channel = "stable"
+            packages = @(
+              [ordered]@{
+                id = "airframe-dashboard"
+                name = "Airframe Dashboard"
+                version = $Version
+                platform = "windows"
+                arch = "amd64"
+                url = "https://github.com/$Repo/releases/download/$TagName/$ZipName"
+                sizeBytes = $FileSize
+                sha256 = $FileHash
+                required = $true
+              }
+            )
+          }
+
           $Manifest | ConvertTo-Json -Depth 10 | Set-Content $ManifestPath
           
       - name: Commit and Push Manifest Update
