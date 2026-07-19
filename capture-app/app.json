@@ -26,6 +26,14 @@
     },
     "plugins": [
       [
+        "react-native-vision-camera",
+        {
+          "cameraPermission": "Allow Airframe to access your camera",
+          "microphonePermission": "Allow Airframe to access your microphone",
+          "enableCodeScanner": true
+        }
+      ],
+      [
         "@config-plugins/react-native-webrtc",
         {
           "cameraPermission": "Allow Airframe to access your camera",
